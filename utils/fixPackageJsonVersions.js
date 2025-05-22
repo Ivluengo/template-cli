@@ -1,15 +1,15 @@
-import fs from 'node:fs/promises';
+import fs from 'node:fs';
 import cliSpinners from 'cli-spinners';
 import ora from 'ora';
 
 import getLatestPackageVersions from './getLatestPackageVersions.js';
 
-export default async function fixPackageJsonVersions(origFilePath, writePath) {
+export default function fixPackageJsonVersions(origFilePath, writePath) {
   // Printing an animation while the file is being fixed
   // TODO: Fix the spinner
   const spinner = ora(cliSpinners.dots12).start();
 
-  const contents = await fs.readFile(origFilePath, 'utf8');
+  const contents = fs.readFileSync(origFilePath, 'utf8');
   const parsedContent = JSON.parse(contents);
   const sections = ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies'];
   for (const section of sections) {
